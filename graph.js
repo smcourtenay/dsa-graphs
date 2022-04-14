@@ -90,19 +90,26 @@ class Graph {
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
   distanceOfShortestPath(start, end, visitedSet = new Set()) {
-    if (start.adjacent.size === 0) return 0;
+    console.log("Start: ", start.value);
+    console.log("End: ", end.value);
+    console.log("visitedSet: ", visitedSet);
 
-    if (start === end) return visitedSet.size;
+    let pathLength = 0;
+    if (start.adjacent.size === 0) return 0;
+    
+    if (start.value === end.value) return pathLength;
+
+    if (visitedSet.size === this.nodes.size && start.value !== end.value) return undefined;
 
     visitedSet.add(start);
 
     for (let neighbor of start.adjacent) {
       if (!visitedSet.has(neighbor)) {
         visitedSet.add(neighbor);
-        this.distanceOfShortestPath(neighbor, end, visitedSet)
+        pathLength = this.distanceOfShortestPath(neighbor, end, visitedSet) + 1;
       }
     }
-    return undefined;
+    console.log("REACHING END")
   }
 }
 
