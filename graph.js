@@ -89,29 +89,27 @@ class Graph {
   }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
-  distanceOfShortestPath(start, end, visitedSet = new Set()) {
-    // console.log("Start: ", start.value);
-    // console.log("End: ", end.value);
-    // console.log("visitedSet: ", visitedSet);
+  distanceOfShortestPath(start, end) {
+    if (start.value === end.value) return 0; 
 
-    let pathLength = 0;
-    if (start.value === end.value) return pathLength; // Works
-
-    // if (visitedSet.size === this.nodes.size && start.value !== end.value) return undefined;
-
+    let queue = [[start, 0]];
+    let visitedSet = new Set();
     visitedSet.add(start);
 
-    for (let neighbor of start.adjacent) {
-      if (!visitedSet.has(neighbor)) {
-        visitedSet.add(neighbor);
-        pathLength = this.distanceOfShortestPath(neighbor, end, visitedSet) + 1;
-        // console.log("Start: ", start.value);
-
-        // console.log("PATH LENGTH",pathLength)
+    while (queue.length > 0){
+      let [current, distance] = queue.shift();
+      visitedSet.add(current);
+      
+      if (current.value === end.value) {
+        return distance;
+      } else {
+        for (let neighbor of current.adjacent) {
+          if (!visitedSet.has(neighbor)){
+            queue.push([neighbor,distance+1]);
+          }
+        }
       }
     }
-    // console.log("REACHING END")
-    return pathLength
   }
 }
 
