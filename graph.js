@@ -51,19 +51,25 @@ class Graph {
     this.nodes.delete(vertex);
   }
 
+
   /** traverse graph with DFS and returns array of Node values */
   depthFirstSearch(start, visitedSet = new Set()) { 
     if(start.adjacent.size === 0) return [start.value];
 
+    visitedSet.add(start);
+
     for (let neighbor of start.adjacent){
       if(!visitedSet.has(neighbor)){
         visitedSet.add(neighbor);
-        // console.log("NEIGHBOR VALUE",neighbor.value)
-        let answer = this.depthFirstSearch(neighbor, visitedSet);
-        console.log("ANSWER: ", answer);
-        return visitedSet;
+        console.log("NEIGHBOR VALUE",neighbor.value)
+        return [start.value, ...this.depthFirstSearch(neighbor, visitedSet)]
+        // console.log(answer);
+      } else{
+        continue;
       }
     }
+
+    // return this.depthFirstSearch();
   }
 
   /** traverse graph with BDS and returns array of Node values */
