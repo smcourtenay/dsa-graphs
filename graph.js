@@ -71,44 +71,39 @@ class Graph {
   /** traverse graph with BDS and returns array of Node values */
   breadthFirstSearch(start) {
     if (start.adjacent.size === 0) return [start.value];
-
     let visitingQueue = [start];
-
     let visitedSet = new Set();
     visitedSet.add(start);
-    
     let result = [];
-
     while (visitingQueue.length !== 0) {
-
       let current = visitingQueue.shift();
       result.push(current.value);
-
       for (let neighbor of current.adjacent) {
         if (!visitedSet.has(neighbor)) {
           visitedSet.add(neighbor);
           visitingQueue.push(neighbor);
         }
-
       }
     }
     return result;
   }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
-  distanceOfShortestPath(start, visitedSet = new Set(), end) {
+  distanceOfShortestPath(start, end, visitedSet = new Set()) {
     if (start.adjacent.size === 0) return 0;
 
-    // visitedSet.add(start);
-    // result.push(start.value);
+    if (start === end) return visitedSet.size;
 
-    // for (let neighbor of start.adjacent) {
-    //   if (!visitedSet.has(neighbor)) {
-    //     visitedSet.add(neighbor);
-    //     this.depthFirstSearch(neighbor, visitedSet, result)
-    //   }
-    // }
-    // return result;
+    visitedSet.add(start);
+
+    for (let neighbor of start.adjacent) {
+      if (!visitedSet.has(neighbor)) {
+        visitedSet.add(neighbor);
+        this.distanceOfShortestPath(neighbor, end, visitedSet)
+      }
+    }
+    return undefined;
+  }
 }
 
 module.exports = { Graph, Node }
