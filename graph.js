@@ -82,23 +82,33 @@ class Graph {
     while (visitingQueue.length !== 0) {
 
       let current = visitingQueue.shift();
+      result.push(current.value);
 
       for (let neighbor of current.adjacent) {
         if (!visitedSet.has(neighbor)) {
           visitedSet.add(neighbor);
           visitingQueue.push(neighbor);
-          result.push(current.value);
         }
 
       }
-
-
-      return result
     }
+    return result;
   }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
-  distanceOfShortestPath(start, end) { }
+  distanceOfShortestPath(start, visitedSet = new Set(), end) {
+    if (start.adjacent.size === 0) return 0;
+
+    // visitedSet.add(start);
+    // result.push(start.value);
+
+    // for (let neighbor of start.adjacent) {
+    //   if (!visitedSet.has(neighbor)) {
+    //     visitedSet.add(neighbor);
+    //     this.depthFirstSearch(neighbor, visitedSet, result)
+    //   }
+    // }
+    // return result;
 }
 
 module.exports = { Graph, Node }
