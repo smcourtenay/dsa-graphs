@@ -18,23 +18,23 @@ class Graph {
   /** add Node instance and add it to nodes property on graph. */
   addVertex(vertex) {
     this.nodes.add(vertex);
-   }
+  }
 
   /** add array of new Node instances and adds to them to nodes property. */
   addVertices(vertexArray) {
-    for (let vertex of vertexArray){
+    for (let vertex of vertexArray) {
       this.nodes.add(vertex);
     }
-   }
+  }
 
   /** add edge between vertices v1,v2 */
   addEdge(v1, v2) {
     v1.adjacent.add(v2);
     v2.adjacent.add(v1);
-   }
+  }
 
   /** remove edge between vertices v1,v2 */
-  removeEdge(v1, v2) { 
+  removeEdge(v1, v2) {
     v1.adjacent.delete(v2);
     v2.adjacent.delete(v1);
   }
@@ -44,8 +44,8 @@ class Graph {
    * - remove it from nodes property of graph
    * - update any adjacency lists using that vertex
    */
-  removeVertex(vertex) { 
-    for (let neighbor in vertex.adjacent){
+  removeVertex(vertex) {
+    for (let neighbor in vertex.adjacent) {
       neighbor.adjacent.removeEdge(neighbor, vertex);
     }
     this.nodes.delete(vertex);
@@ -53,28 +53,49 @@ class Graph {
 
 
   /** traverse graph with DFS and returns array of Node values */
-  depthFirstSearch(start, visitedSet = new Set(), result = []) { 
-    console.log("START.val: ", start.value);
-    if(start.adjacent.size === 0) return [start.value];
+  depthFirstSearch(start, visitedSet = new Set(), result = []) {
+    if (start.adjacent.size === 0) return [start.value];
 
     visitedSet.add(start);
     result.push(start.value);
 
-    console.log("VISTED SET: ", visitedSet);
-    for (let neighbor of start.adjacent){
-      console.log("NEIGHBOR VALUE",neighbor.value)
-      if(!visitedSet.has(neighbor)){
-        console.log(neighbor.value, "IS A NEW NEIGHBOR");
+    for (let neighbor of start.adjacent) {
+      if (!visitedSet.has(neighbor)) {
         visitedSet.add(neighbor);
-        return this.depthFirstSearch(neighbor, visitedSet, result)
-        // console.log(answer);
+        this.depthFirstSearch(neighbor, visitedSet, result)
       }
     }
     return result;
   }
 
   /** traverse graph with BDS and returns array of Node values */
-  breadthFirstSearch(start) { }
+  breadthFirstSearch(start) {
+    if (start.adjacent.size === 0) return [start.value];
+
+    let visitingQueue = [start];
+
+    let visitedSet = new Set();
+    visitedSet.add(start);
+    
+    let result = [];
+
+    while (visitingQueue.length !== 0) {
+
+      let current = visitingQueue.shift();
+
+      for (let neighbor of current.adjacent) {
+        if (!visitedSet.has(neighbor)) {
+          visitedSet.add(neighbor);
+          visitingQueue.push(neighbor);
+          result.push(current.value);
+        }
+
+      }
+
+
+      return result
+    }
+  }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
   distanceOfShortestPath(start, end) { }
