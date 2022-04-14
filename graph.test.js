@@ -203,12 +203,21 @@ describe("BFS", function () {
 describe("distanceOfShortestPath", function () {
   it("should return distance of shortest path from start to end vertices", function () {
     let graph = new Graph()
+    let graph2 = new Graph();
 
     let r = new Node("R");
     let i = new Node("I");
     let t = new Node("T");
     let h = new Node("H");
     let m = new Node("M");
+
+
+    let x = new Node("X");
+    let y = new Node("Y");
+
+
+    graph2.addVertices([x,y]);
+    graph2.addEdge(x,y);
 
     graph.addVertices([r, i, t, h, m])
 
@@ -219,6 +228,8 @@ describe("distanceOfShortestPath", function () {
     graph.addEdge(t, h)
     graph.addEdge(h, m)
 
+    console.log("NODES",graph2.nodes)
+    expect(graph2.distanceOfShortestPath(x,y)).toBe(1);
     expect(graph.distanceOfShortestPath(r, m)).toBe(2);
     expect(graph.distanceOfShortestPath(t, r)).toBe(1);
     expect(graph.distanceOfShortestPath(t, m)).toBe(2);
