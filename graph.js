@@ -55,11 +55,13 @@ class Graph {
   depthFirstSearch(start, visitedSet = new Set()) { 
     if(start.adjacent.size === 0) return [start.value];
 
-    for (let neighbor in start.adjacent){
+    for (let neighbor of start.adjacent){
       if(!visitedSet.has(neighbor)){
         visitedSet.add(neighbor);
-        console.log("NEIGHBOR VALUE",neighbor.value)
-        return [neighbor.value, ...this.depthFirstSearch(neighbor, visitedSet)];
+        // console.log("NEIGHBOR VALUE",neighbor.value)
+        let answer = this.depthFirstSearch(neighbor, visitedSet);
+        console.log("ANSWER: ", answer);
+        return visitedSet;
       }
     }
   }
