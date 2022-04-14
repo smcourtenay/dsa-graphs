@@ -53,23 +53,24 @@ class Graph {
 
 
   /** traverse graph with DFS and returns array of Node values */
-  depthFirstSearch(start, visitedSet = new Set()) { 
+  depthFirstSearch(start, visitedSet = new Set(), result = []) { 
+    console.log("START.val: ", start.value);
     if(start.adjacent.size === 0) return [start.value];
 
     visitedSet.add(start);
+    result.push(start.value);
 
+    console.log("VISTED SET: ", visitedSet);
     for (let neighbor of start.adjacent){
+      console.log("NEIGHBOR VALUE",neighbor.value)
       if(!visitedSet.has(neighbor)){
+        console.log(neighbor.value, "IS A NEW NEIGHBOR");
         visitedSet.add(neighbor);
-        console.log("NEIGHBOR VALUE",neighbor.value)
-        return [start.value, ...this.depthFirstSearch(neighbor, visitedSet)]
+        return this.depthFirstSearch(neighbor, visitedSet, result)
         // console.log(answer);
-      } else{
-        continue;
       }
     }
-
-    // return this.depthFirstSearch();
+    return result;
   }
 
   /** traverse graph with BDS and returns array of Node values */
